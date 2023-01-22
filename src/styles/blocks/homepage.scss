@@ -1,0 +1,17 @@
+.homepage {
+  &--content {
+    font-family: Roboto, helvetica, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+
+    color: #363636;
+
+    margin-bottom: 10px;
+
+    &-results {
+      margin-bottom: 5px;
+    }
+  }
+}
