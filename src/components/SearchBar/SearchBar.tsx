@@ -9,8 +9,6 @@ type Props = {
 export const SearchBar: React.FC<Props> = ({ onQueryChange, query }) => {
   const searchBarStyles = {
     box: {
-      // display: 'flex',
-      // alignItems: 'center',
       marginBottom: '40px',
     },
     textField: {
@@ -18,9 +16,6 @@ export const SearchBar: React.FC<Props> = ({ onQueryChange, query }) => {
       height: '50px',
       boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.05)',
       borderRadius: '5px',
-    },
-    searchIcon: {
-      // margin: '0 20px',
     },
   };
 
@@ -36,7 +31,7 @@ export const SearchBar: React.FC<Props> = ({ onQueryChange, query }) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <SearchIcon sx={searchBarStyles.searchIcon} />
+              <SearchIcon />
             </InputAdornment>
           ),
           style: searchBarStyles.textField,

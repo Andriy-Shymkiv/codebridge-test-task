@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Button } from '@mui/material';
 import { Box, Container } from '@mui/system';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -64,15 +63,11 @@ export const ArticlePage: React.FC = () => {
 
   return (
     <Container sx={{ marginTop: '150px' }}>
-      {loading && (<Loader />)}
+      {loading && <Loader />}
       {!loading && (
         <>
           <Box sx={articlePageStyles.wrapper}>
-            <p
-              className="articlepage--title"
-            >
-              {article?.title}
-            </p>
+            <p className="articlepage--title">{article?.title}</p>
             <article
               className="
                 articlepage--content

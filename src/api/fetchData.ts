@@ -3,7 +3,7 @@ import { Article } from '../types/Article';
 const BASE_URL = 'https://api.spaceflightnewsapi.net';
 
 function wait(delay: number) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, delay);
   });
 }
@@ -13,7 +13,7 @@ function get<T>(url: string): Promise<T> {
 
   return wait(300)
     .then(() => fetch(fullURL))
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw new Error('Data can not be loaded from server');
       }

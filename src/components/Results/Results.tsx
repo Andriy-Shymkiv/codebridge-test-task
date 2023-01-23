@@ -20,20 +20,23 @@ export const Results: React.FC<Props> = ({ query }) => {
       const getArticlesFromServer = async () => {
         const articlesFromServer = await getArticles();
 
-        setArticles(articlesFromServer.map(article => {
-          const cuttedTitle = article.title
-            .split(' ').slice(0, 6).join(' ');
-          const cuttedSummary = article.summary
-            .split(' ').slice(0, 10).join(' ');
-          const limitedTitle = `${cuttedTitle}...`;
-          const limitedSummary = `${cuttedSummary}...`;
+        setArticles(
+          articlesFromServer.map((article) => {
+            const cuttedTitle = article.title.split(' ').slice(0, 6).join(' ');
+            const cuttedSummary = article.summary
+              .split(' ')
+              .slice(0, 10)
+              .join(' ');
+            const limitedTitle = `${cuttedTitle}...`;
+            const limitedSummary = `${cuttedSummary}...`;
 
-          return {
-            ...article,
-            title: limitedTitle,
-            summary: limitedSummary,
-          };
-        }));
+            return {
+              ...article,
+              title: limitedTitle,
+              summary: limitedSummary,
+            };
+          }),
+        );
       };
 
       getArticlesFromServer();
@@ -50,20 +53,22 @@ export const Results: React.FC<Props> = ({ query }) => {
     loadArticles();
   }, []);
 
-  const displayedArticles = articles?.filter(
-    article => article.title.toLowerCase().includes(query.toLowerCase())
-      || article.summary.toLowerCase().includes(query.toLowerCase()),
-  ).sort((a, b) => {
-    if (a.title.includes(query) && !b.title.includes(query)) {
-      return -1;
-    }
+  const displayedArticles = articles
+    ?.filter(
+      (article) => article.title.toLowerCase().includes(query.toLowerCase())
+        || article.summary.toLowerCase().includes(query.toLowerCase()),
+    )
+    .sort((a, b) => {
+      if (a.title.includes(query) && !b.title.includes(query)) {
+        return -1;
+      }
 
-    if (!a.title.includes(query) && b.title.includes(query)) {
-      return 1;
-    }
+      if (!a.title.includes(query) && b.title.includes(query)) {
+        return 1;
+      }
 
-    return 0;
-  });
+      return 0;
+    });
 
   const resultsContentStyles = {
     titleBox: {
@@ -80,9 +85,7 @@ export const Results: React.FC<Props> = ({ query }) => {
 
   return (
     <Box>
-      {loading && (
-        <Loader />
-      )}
+      {loading && <Loader />}
       {!loading && (
         <Box>
           <Box sx={resultsContentStyles.titleBox}>
@@ -102,9 +105,9 @@ export const Results: React.FC<Props> = ({ query }) => {
               spacing={{ xs: 5, md: 5 }}
               columns={{ xs: 4, sm: 8, md: 12 }}
             >
-              {displayedArticles?.map(article => (
+              {displayedArticles?.map((article) => (
                 <Grid item xs={2} sm={4} md={4}>
-                  <CardItem article={article} key={article.id} />
+                  <CardItem article={article} query={query} key={article.id} />
                 </Grid>
               ))}
             </Grid>

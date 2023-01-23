@@ -10,14 +10,38 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Article } from '../../types/Article';
-import { convertDateToHumanDate } from '../../date/dateNormalize';
+import { convertDateToHumanDate } from '../../anotherLogic/dateNormalize';
 
 type Props = {
   article: Article;
+  query: string;
 };
 
-export const CardItem: React.FC<Props> = ({ article }) => {
+export const CardItem: React.FC<Props> = ({ article, query }) => {
   const normalizedDate = convertDateToHumanDate(article.publishedAt);
+
+  const highlight = (text: string, initialQuery: string) => {
+    const parts = text.split(new RegExp(`(${initialQuery})`, 'gi'));
+
+    return (
+      <>
+        {parts.map((part) => (
+          <span
+            key={Math.random()}
+            style={
+              {
+                backgroundColor: part.toLowerCase() === query.toLowerCase()
+                  ? 'yellow'
+                  : 'inherit',
+              }
+            }
+          >
+            {part}
+          </span>
+        ))}
+      </>
+    );
+  };
 
   const cardStyles = {
     card: {
@@ -60,9 +84,7 @@ export const CardItem: React.FC<Props> = ({ article }) => {
 
   return (
     <Card sx={cardStyles.card}>
-      <CardActionArea
-        sx={cardStyles.actionArea}
-      >
+      <CardActionArea sx={cardStyles.actionArea}>
         <CardMedia
           sx={cardStyles.img}
           component="img"
@@ -81,14 +103,11 @@ export const CardItem: React.FC<Props> = ({ article }) => {
             variant="h5"
             component="div"
           >
-            {article.title}
+            {highlight(article.title, query)}
           </Typography>
-          <Typography
-            variant="body2"
-            sx={cardStyles.summary}
-          >
+          <Typography variant="body2" sx={cardStyles.summary}>
             {!article.summary && 'No description yet'}
-            {article.summary}
+            {highlight(article.summary, query)}
           </Typography>
         </CardContent>
       </CardActionArea>
