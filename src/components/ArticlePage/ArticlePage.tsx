@@ -28,19 +28,19 @@ export const ArticlePage: React.FC = () => {
         setLoading(false);
       }, 600);
     } catch {
-      throw new Error();
+      throw new Error('Cannot load data from server');
     }
   };
+
+  useEffect(() => {
+    loadArticle();
+  });
 
   useEffect(() => {
     if (location.pathname === `/${articleId}`) {
       document.body.classList.add('article--body--content');
     }
   }, [location]);
-
-  useEffect(() => {
-    loadArticle();
-  });
 
   const articlePageStyles = {
     wrapper: {
