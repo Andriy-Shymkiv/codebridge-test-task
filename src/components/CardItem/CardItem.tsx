@@ -28,13 +28,12 @@ export const CardItem: React.FC<Props> = ({ article, query }) => {
         {parts.map((part) => (
           <span
             key={Math.random()}
-            style={
-              {
-                backgroundColor: part.toLowerCase() === query?.toLowerCase()
+            style={{
+              backgroundColor:
+                part.toLowerCase() === query?.toLowerCase()
                   ? 'yellow'
                   : 'inherit',
-              }
-            }
+            }}
           >
             {part}
           </span>

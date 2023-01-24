@@ -54,6 +54,7 @@ export const ArticlePage: React.FC = () => {
     },
     button: {
       display: 'flex',
+      flexDirection: 'row',
       gap: '5px',
       color: '#363636',
       textTransform: 'none',
@@ -78,12 +79,12 @@ export const ArticlePage: React.FC = () => {
             </article>
           </Box>
 
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button sx={articlePageStyles.button}>
-              <KeyboardBackspaceIcon />
+          <Button sx={articlePageStyles.button}>
+            <KeyboardBackspaceIcon />
+            <Link to="/" style={{ textDecoration: 'none', color: '#363636' }}>
               Back to homepage
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </>
       )}
     </Container>
