@@ -1,42 +1,30 @@
-/* eslint-disable no-console */
 import Grid from '@mui/material/Grid/Grid';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
+import { sortArticles } from '../../additionalLogic/sortArticles';
+import { truncateArticles } from '../../additionalLogic/truncateArticles';
 import { getArticles } from '../../api/fetchData';
 import { Article } from '../../types/Article';
 import { CardItem } from '../CardItem';
 import { Loader } from '../Loader';
 
 type Props = {
-  query: string;
+  query: string | null;
 };
 
 export const Results: React.FC<Props> = ({ query }) => {
-  const [articles, setArticles] = useState<Article[] | null>([]);
+  const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const displayedArticles = sortArticles(articles, query);
 
   const loadArticles = () => {
     try {
       const getArticlesFromServer = async () => {
         const articlesFromServer = await getArticles();
+        const truncatedArticles = truncateArticles(articlesFromServer);
 
-        setArticles(
-          articlesFromServer.map((article) => {
-            const cuttedTitle = article.title.split(' ').slice(0, 6).join(' ');
-            const cuttedSummary = article.summary
-              .split(' ')
-              .slice(0, 10)
-              .join(' ');
-            const limitedTitle = `${cuttedTitle}...`;
-            const limitedSummary = `${cuttedSummary}...`;
-
-            return {
-              ...article,
-              title: limitedTitle,
-              summary: limitedSummary,
-            };
-          }),
-        );
+        setArticles(truncatedArticles);
       };
 
       getArticlesFromServer();
@@ -44,31 +32,14 @@ export const Results: React.FC<Props> = ({ query }) => {
       setTimeout(() => {
         setLoading(false);
       }, 600);
-    } catch (error) {
-      throw new Error();
+    } catch {
+      throw new Error('Cannot load data from server');
     }
   };
 
   useEffect(() => {
     loadArticles();
   }, []);
-
-  const displayedArticles = articles
-    ?.filter(
-      (article) => article.title.toLowerCase().includes(query.toLowerCase())
-        || article.summary.toLowerCase().includes(query.toLowerCase()),
-    )
-    .sort((a, b) => {
-      if (a.title.includes(query) && !b.title.includes(query)) {
-        return -1;
-      }
-
-      if (!a.title.includes(query) && b.title.includes(query)) {
-        return 1;
-      }
-
-      return 0;
-    });
 
   const resultsContentStyles = {
     titleBox: {
@@ -106,8 +77,8 @@ export const Results: React.FC<Props> = ({ query }) => {
               columns={{ xs: 4, sm: 8, md: 12 }}
             >
               {displayedArticles?.map((article) => (
-                <Grid item xs={2} sm={4} md={4}>
-                  <CardItem article={article} query={query} key={article.id} />
+                <Grid item xs={4} sm={4} md={4} key={article.id}>
+                  <CardItem article={article} query={query} />
                 </Grid>
               ))}
             </Grid>

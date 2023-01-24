@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputAdornment, TextField } from '@mui/material';
 
 type Props = {
-  query: string;
+  query: string | null;
   onQueryChange: (value: string) => void;
 };
 
@@ -10,9 +10,13 @@ export const SearchBar: React.FC<Props> = ({ onQueryChange, query }) => {
   const searchBarStyles = {
     box: {
       marginBottom: '40px',
+      width: '400px',
+      display: 'inline-block',
     },
     textField: {
-      width: '600px',
+      width: '100%',
+    },
+    textInput: {
       height: '50px',
       boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.05)',
       borderRadius: '5px',
@@ -22,6 +26,7 @@ export const SearchBar: React.FC<Props> = ({ onQueryChange, query }) => {
   return (
     <Box sx={searchBarStyles.box}>
       <TextField
+        sx={searchBarStyles.textField}
         id="outlined-basic"
         placeholder="Newest articles for today!"
         variant="outlined"
@@ -34,7 +39,7 @@ export const SearchBar: React.FC<Props> = ({ onQueryChange, query }) => {
               <SearchIcon />
             </InputAdornment>
           ),
-          style: searchBarStyles.textField,
+          style: searchBarStyles.textInput,
         }}
       />
     </Box>

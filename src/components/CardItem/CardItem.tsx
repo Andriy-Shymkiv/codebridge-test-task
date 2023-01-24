@@ -10,17 +10,17 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Article } from '../../types/Article';
-import { convertDateToHumanDate } from '../../anotherLogic/dateNormalize';
+import { convertDateToHumanDate } from '../../additionalLogic/dateNormalize';
 
 type Props = {
   article: Article;
-  query: string;
+  query: string | null;
 };
 
 export const CardItem: React.FC<Props> = ({ article, query }) => {
   const normalizedDate = convertDateToHumanDate(article.publishedAt);
 
-  const highlight = (text: string, initialQuery: string) => {
+  const highlight = (text: string, initialQuery: string | null) => {
     const parts = text.split(new RegExp(`(${initialQuery})`, 'gi'));
 
     return (
@@ -30,7 +30,7 @@ export const CardItem: React.FC<Props> = ({ article, query }) => {
             key={Math.random()}
             style={
               {
-                backgroundColor: part.toLowerCase() === query.toLowerCase()
+                backgroundColor: part.toLowerCase() === query?.toLowerCase()
                   ? 'yellow'
                   : 'inherit',
               }

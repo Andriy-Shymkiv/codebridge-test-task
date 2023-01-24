@@ -1,12 +1,12 @@
 import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useLocalStorage } from '../../customHooks/useLocalStorage';
 import { Results } from '../Results';
 import { SearchBar } from '../SearchBar';
 
 export const HomePage: React.FC = () => {
-  const [query, setQuery] = useState('');
-
+  const [query, setQuery] = useLocalStorage('query', '');
   const location = useLocation();
 
   useEffect(() => {
